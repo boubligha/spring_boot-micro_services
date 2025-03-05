@@ -1,0 +1,20 @@
+server:
+  port: 8080  # Port for the gateway
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: commande-group
+          uri: http://localhost:8081  # URL of command-ms
+          predicates:
+            - Path=/my_store/api/commande/**  # Fixed the path (added leading slash)
+          filters:
+            - StripPrefix=1  # Removes the first part of the path (/my_store/api/commande)
+
+        - id: paiment-ms
+          uri: http://localhost:8090  # URL of payment-ms
+          predicates:
+            - Path=/my_store/api/paiment/**  # Fixed the path (added leading slash)
+          filters:
+            - StripPrefix=1  # Removes the first part of the path (/my_store/api/paiment)
