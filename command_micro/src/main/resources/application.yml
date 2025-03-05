@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/command_db
+    url: jdbc:mysql://localhost:3306/command_db?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password:
 
@@ -14,6 +14,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
 
   application:
     name: Command_Micro
@@ -27,3 +28,8 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
