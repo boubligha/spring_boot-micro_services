@@ -5,6 +5,7 @@ import org.example.command_micro.service.facade.CommandService;
 import org.example.command_micro.ws.Dto.CommandeDto;
 import org.example.command_micro.ws.convetor.CommandeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class CommandeWs {
     private final CommandService service;
     private final CommandeConverter converter;
-
+    @Value("${server.port}")
+    private String port;
     @Autowired
     public CommandeWs(CommandService service, CommandeConverter converter) {
         this.service = service;
@@ -71,7 +73,10 @@ public class CommandeWs {
     }
     @GetMapping("/")
     public List<CommandeDto> findAll() {
+        System.out.println("port = " + port);
         return service.findAll().stream().map(converter::convertToDto).toList();
 
     }
+
+
 }

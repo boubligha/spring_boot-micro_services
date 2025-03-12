@@ -1,20 +1,29 @@
 server:
   port: 8080  # Port for the gateway
-
+#proxy representant local de l'objet distant
 spring:
+  application:
+    name: gateway-service
   cloud:
     gateway:
       routes:
-        - id: commande-group
-          uri: http://localhost:8081  # URL of command-ms
+        - id: command-service
+          uri: lb://command-service
           predicates:
-            - Path=/my_store/api/commande/**  # Fixed the path (added leading slash)
+            - Path=/my_store/api/commande/**
           filters:
-            - StripPrefix=1  # Removes the first part of the path (/my_store/api/commande)
+            - StripPrefix=1
 
-        - id: paiment-ms
-          uri: http://localhost:8090  # URL of payment-ms
+        - id: payment-service
+          uri: lb://payment-service
           predicates:
-            - Path=/my_store/api/paiment/**  # Fixed the path (added leading slash)
+            - Path=/my_store/api/paiment/**
           filters:
-            - StripPrefix=1  # Removes the first part of the path (/my_store/api/paiment)
+            - StripPrefix=1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

@@ -4,12 +4,12 @@ import org.example.paiment_micro.ws.dto.CommandDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "commande-micro", url = "${app.api.commande}")
+@FeignClient(name = "command-service")
 public interface CommandRequired {
 
-    @GetMapping("/ref/{ref}")
+    @GetMapping("/api/commande/ref/{ref}")
     CommandDto findCommandeByRef(@PathVariable String ref);
 
-    @PutMapping("/ref/{ref}")
+    @PutMapping("/api/commande/ref/{ref}")
     CommandDto update(@PathVariable String ref, @RequestBody CommandDto commandDto);
 }
